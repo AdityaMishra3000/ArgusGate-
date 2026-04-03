@@ -33,29 +33,34 @@ export default function TransactionForm({ onResult }) {
     }
   }
 
-  const field = {
-    background: '#13131a',
-    border: '1px solid #2d2d3d',
-    borderRadius: '8px',
-    padding: '10px 14px',
-    color: '#e2e8f0',
+  const fieldStyle = {
+    background: 'rgba(0, 0, 0, 0.3)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '10px',
+    padding: '12px 16px',
+    color: '#f8fafc',
     fontSize: '14px',
     width: '100%',
     outline: 'none',
+    transition: 'all 0.2s',
+    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)',
   }
 
   return (
     <div style={{
-      background: '#13131a',
-      border: '1px solid #2d2d3d',
-      borderRadius: '12px',
-      padding: '24px',
+      background: 'rgba(20, 20, 28, 0.4)',
+      backdropFilter: 'blur(24px) saturate(150%)',
+      WebkitBackdropFilter: 'blur(24px) saturate(150%)',
+      border: '1px solid rgba(255, 255, 255, 0.08)',
+      boxShadow: '0 24px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+      borderRadius: '20px',
+      padding: '28px',
     }}>
-      <h2 style={{ marginBottom: '20px', fontSize: '15px', color: '#94a3b8' }}>
+      <h2 style={{ marginBottom: '24px', fontSize: '14px', color: '#94a3b8', letterSpacing: '0.05em', fontWeight: 600 }}>
         SUBMIT TRANSACTION
       </h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
         {[
           { name: 'user_id',   label: 'User ID',    type: 'number' },
           { name: 'amount',    label: 'Amount ($)',  type: 'number' },
@@ -63,24 +68,32 @@ export default function TransactionForm({ onResult }) {
           { name: 'lon',       label: 'Longitude',  type: 'number' },
         ].map(({ name, label, type }) => (
           <div key={name}>
-            <label style={{ fontSize: '12px', color: '#64748b', display: 'block', marginBottom: '6px' }}>
+            <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '8px', fontWeight: 500 }}>
               {label}
             </label>
             <input
               name={name} type={type} value={form[name]}
-              onChange={handle} style={field}
+              onChange={handle} style={fieldStyle}
               placeholder={name === 'user_id' ? '0–499' : ''}
+              onFocus={e => {
+                e.target.style.borderColor = 'rgba(99, 102, 241, 0.6)'
+                e.target.style.boxShadow = '0 0 12px rgba(99, 102, 241, 0.2), inset 0 2px 4px rgba(0,0,0,0.2)'
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.2)'
+              }}
             />
           </div>
         ))}
 
         <div style={{ gridColumn: 'span 2' }}>
-          <label style={{ fontSize: '12px', color: '#64748b', display: 'block', marginBottom: '6px' }}>
+          <label style={{ fontSize: '12px', color: '#94a3b8', display: 'block', marginBottom: '8px', fontWeight: 500 }}>
             Timestamp
           </label>
           <input
             name="timestamp" type="datetime-local"
-            value={form.timestamp} onChange={handle} style={field}
+            value={form.timestamp} onChange={handle} style={fieldStyle}
           />
         </div>
       </div>
@@ -89,17 +102,29 @@ export default function TransactionForm({ onResult }) {
         onClick={submit}
         disabled={loading}
         style={{
-          marginTop: '16px',
+          marginTop: '28px',
           width: '100%',
-          padding: '12px',
-          background: loading ? '#1e293b' : '#6366f1',
-          border: 'none',
-          borderRadius: '8px',
-          color: '#fff',
-          fontWeight: 600,
-          fontSize: '14px',
+          padding: '16px',
+          // Here's the magic 3D neon button CSS
+          background: loading ? 'rgba(255,255,255,0.05)' : 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.95) 100%)',
+          border: loading ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(16, 185, 129, 0.8)',
+          borderRadius: '14px',
+          color: loading ? '#64748b' : '#ffffff',
+          fontWeight: 700,
+          fontSize: '15px',
+          letterSpacing: '0.02em',
           cursor: loading ? 'not-allowed' : 'pointer',
-          transition: 'background 0.2s',
+          transition: 'all 0.2s',
+          boxShadow: loading 
+            ? 'none' 
+            : '0 12px 24px rgba(16, 185, 129, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.2)',
+          textShadow: loading ? 'none' : '0 2px 4px rgba(0,0,0,0.2)'
+        }}
+        onMouseDown={e => {
+          if(!loading) e.currentTarget.style.transform = 'translateY(2px)'
+        }}
+        onMouseUp={e => {
+          if(!loading) e.currentTarget.style.transform = 'translateY(0)'
         }}
       >
         {loading ? 'Analyzing...' : 'Run Detection →'}
