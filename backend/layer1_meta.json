@@ -1,5 +1,5 @@
 {
-  "threshold": 0.8194689154624939,
+  "threshold": 0.7213877439498901,
   "features": [
     "amount_log",
     "amount_zscore",
@@ -21,17 +21,17 @@
     "far_x_speed",
     "night_x_burst_x_amt"
   ],
-  "n_estimators_used": 169,
+  "n_estimators_used": 175,
   "metrics": {
     "auc_roc": 0.9983,
-    "auc_pr": 0.9901,
-    "precision": 0.9723,
-    "recall": 0.9428,
-    "f1": 0.9573,
-    "fpr": 0.0035,
-    "tp": 1616,
-    "fp": 46,
-    "tn": 13243,
-    "fn": 98
+    "auc_pr": 0.9902,
+    "precision": 0.9461,
+    "recall": 0.9522,
+    "f1": 0.9491,
+    "fpr": 0.007,
+    "tp": 1632,
+    "fp": 93,
+    "tn": 13196,
+    "fn": 82
   }
 }
